@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
 import SatoshiFont from "@/components/SatoshiFont";
 import { publicConfig } from "@/lib/config";
+import { PAPER_HEX } from "@/lib/tokens";
 import "./globals.css";
 
 /**
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F3F3F7",
+  themeColor: PAPER_HEX,
   width: "device-width",
   initialScale: 1,
 };
