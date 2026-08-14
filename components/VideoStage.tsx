@@ -1,0 +1,156 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { inView, rijst, trap } from "@/lib/motion";
+import { useVerminderdeBeweging } from "@/lib/useVerminderdeBeweging";
+
+/** Momenten waarop een stap oplicht, in seconden. */
+const STAPPEN = [
+  { label: "Aanvraag komt binnen", start: 0, plaats: "md:left-[3%] md:top-[7%]" },
+  { label: "CRM bijgewerkt", start: 2.6, plaats: "md:right-[3%] md:top-[24%]" },
+  { label: "Antwoord voorbereid", start: 5.2, plaats: "md:left-[3%] md:bottom-[30%]" },
+  { label: "Taak aangemaakt", start: 7.6, plaats: "md:right-[3%] md:bottom-[22%]" },
+] as const;
+
+const DUUR_ACTIEF = 2.2;
+const CYCLUS = 10;
+
+type Stand = "wacht" | "actief" | "klaar";
+
+function standVan(tijd: number, start: number): Stand {
+  if (tijd < start) return "wacht";
+  return tijd < start + DUUR_ACTIEF ? "actief" : "klaar";
+}
+
+const STIJL: Record<Stand, string> = {
+  wacht: "opacity-55 text-ink/55",
+  actief: "opacity-100 text-ink shadow-lift ring-2 ring-grad-1/35",
+  klaar: "opacity-90 text-ink/75",
+};
+
+export default function VideoStage() {
+  const verminderd = useVerminderdeBeweging();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const houderRef = useRef<HTMLDivElement>(null);
+  const [tijd, setTijd] = useState(0);
+  const [zonderVideo, setZonderVideo] = useState(false);
+
+  // Bij verminderde beweging tonen we meteen de eindstand.
+  const effectieveTijd = verminderd ? CYCLUS : tijd;
+
+  const stap = STAPPEN.reduce(
+    (hoogste, s, i) => (effectieveTijd >= s.start ? i + 1 : hoogste),
+    1,
+  );
+
+  /** Speelt enkel wanneer het paneel in beeld staat. */
+  useEffect(() => {
+    const houder = houderRef.current;
+    const video = videoRef.current;
+    if (!houder || verminderd) return;
+
+    const waarnemer = new IntersectionObserver(
+      ([item]) => {
+        if (!item) return;
+        if (!video) return;
+        if (item.isIntersecting) {
+          void video.play().catch(() => setZonderVideo(true));
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.35 },
+    );
+
+    waarnemer.observe(houder);
+    return () => waarnemer.disconnect();
+  }, [verminderd]);
+
+  /** Terugval wanneer het bestand ontbreekt of niet wil spelen. */
+  useEffect(() => {
+    if (!zonderVideo || verminderd) return;
+    const begin = performance.now();
+    const id = window.setInterval(() => {
+      setTijd(((performance.now() - begin) / 1000) % CYCLUS);
+    }, 200);
+    return () => window.clearInterval(id);
+  }, [zonderVideo, verminderd]);
+
+  const volgTijd = useCallback(() => {
+    const video = videoRef.current;
+    if (video) setTijd(video.currentTime % CYCLUS);
+  }, []);
+
+  return (
+    <motion.div
+      ref={houderRef}
+      variants={trap(0.08)}
+      initial="rust"
+      whileInView="actief"
+      viewport={inView}
+      className="relative"
+    >
+      <motion.div
+        variants={rijst}
+        className="glass-strong relative overflow-hidden rounded-card"
+      >
+        <video
+          ref={videoRef}
+          className="aspect-[16/9] w-full object-cover"
+          poster="/video/poster.jpg"
+          preload="none"
+          muted
+          loop
+          playsInline
+          onTimeUpdate={volgTijd}
+          onError={() => setZonderVideo(true)}
+          aria-label="Otto en Nora verwerken een binnenkomende aanvraag"
+        >
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
+
+        {/* Labels zweven over het beeld op groot scherm. */}
+        <ol className="pointer-events-none absolute inset-0 hidden md:block">
+          {STAPPEN.map((s, i) => {
+            const stand = verminderd ? "klaar" : standVan(effectieveTijd, s.start);
+            return (
+              <li
+                key={s.label}
+                className={`glass-strong absolute rounded-pill px-4 py-2.5 text-sm font-medium transition-all duration-500 ${s.plaats} ${STIJL[stand]}`}
+                aria-current={stand === "actief" ? "step" : undefined}
+              >
+                <span className="mr-2 text-xs tabular-nums text-ink/40">0{i + 1}</span>
+                {s.label}
+              </li>
+            );
+          })}
+        </ol>
+
+        <div
+          aria-hidden
+          className="glass-strong absolute bottom-4 left-1/2 hidden -translate-x-1/2 rounded-pill px-5 py-2 text-sm font-medium md:block"
+        >
+          Stap {stap} van {STAPPEN.length}
+        </div>
+      </motion.div>
+
+      {/* Op klein scherm staan dezelfde stappen onder het beeld. */}
+      <ol className="mt-3 grid grid-cols-2 gap-2 md:hidden">
+        {STAPPEN.map((s, i) => {
+          const stand = verminderd ? "klaar" : standVan(effectieveTijd, s.start);
+          return (
+            <li
+              key={s.label}
+              className={`glass rounded-2xl px-3 py-2.5 text-[0.8rem] font-medium leading-tight transition-all duration-500 ${STIJL[stand]}`}
+              aria-current={stand === "actief" ? "step" : undefined}
+            >
+              <span className="mr-1.5 text-[0.7rem] tabular-nums text-ink/40">0{i + 1}</span>
+              {s.label}
+            </li>
+          );
+        })}
+      </ol>
+    </motion.div>
+  );
+}
