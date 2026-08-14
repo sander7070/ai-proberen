@@ -4,3 +4,12 @@ __pycache__/
 *.pyo
 .venv/
 venv/
+
+# Next.js / node
+node_modules/
+.next/
+out/
+next-env.d.ts
+.env.local
+.env*.local
+*.tsbuildinfo

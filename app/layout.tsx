@@ -1,0 +1,65 @@
+import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import type { ReactNode } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import MotionProvider from "@/components/MotionProvider";
+import { publicConfig } from "@/lib/config";
+import "./globals.css";
+
+/**
+ * Satoshi is het merklettertype en wordt van Fontshare geladen. Deze
+ * zelfgehoste snit staat eronder in de stack: die rendert meteen, zodat er
+ * geen onzichtbare tekst of layoutsprong is als Fontshare traag of
+ * onbereikbaar is.
+ */
+const fallback = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-fallback",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL(publicConfig.siteUrl),
+  title: {
+    default: "upgrAIde — minder manueel werk, meer capaciteit",
+    template: "%s — upgrAIde",
+  },
+  description:
+    "upgrAIde verbindt uw systemen en neemt terugkerend werk over. Van één taak tot een volledige organisatie.",
+  applicationName: "upgrAIde",
+  authors: [{ name: "upgrAIde" }],
+  robots: { index: true, follow: true },
+  icons: { icon: "/merk/monogram.webp", apple: "/merk/monogram.webp" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F3F3F7",
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="nl-BE" className={fallback.variable}>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f%5B%5D=satoshi@300,400,500,700&display=swap"
+        />
+      </head>
+      <body className="min-h-dvh font-sans antialiased">
+        <MotionProvider>
+          <a className="skiplink glass-strong rounded-pill px-4 py-2 text-sm font-medium" href="#hoofd">
+            Naar de inhoud
+          </a>
+          <Header />
+          <main id="hoofd">{children}</main>
+          <Footer />
+        </MotionProvider>
+      </body>
+    </html>
+  );
+}
