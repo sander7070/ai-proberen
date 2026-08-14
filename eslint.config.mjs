@@ -6,7 +6,8 @@ const compat = new FlatCompat({ baseDirectory: dirname(fileURLToPath(import.meta
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
-  { ignores: [".next/**", "node_modules/**", "referentie/**"] },
+  // next-env.d.ts wordt door Next zelf gegenereerd en staat niet onder ons beheer.
+  { ignores: [".next/**", "node_modules/**", "referentie/**", "next-env.d.ts"] },
 ];
 
 export default eslintConfig;
