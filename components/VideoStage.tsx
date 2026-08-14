@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { inView, rijst, trap } from "@/lib/motion";
+import { useSpeeltInBeeld } from "@/lib/useSpeeltInBeeld";
 import { useVerminderdeBeweging } from "@/lib/useVerminderdeBeweging";
 
 /** Momenten waarop een stap oplicht, in seconden. */
@@ -44,28 +45,8 @@ export default function VideoStage() {
     1,
   );
 
-  /** Speelt enkel wanneer het paneel in beeld staat. */
-  useEffect(() => {
-    const houder = houderRef.current;
-    const video = videoRef.current;
-    if (!houder || verminderd) return;
-
-    const waarnemer = new IntersectionObserver(
-      ([item]) => {
-        if (!item) return;
-        if (!video) return;
-        if (item.isIntersecting) {
-          void video.play().catch(() => setZonderVideo(true));
-        } else {
-          video.pause();
-        }
-      },
-      { threshold: 0.35 },
-    );
-
-    waarnemer.observe(houder);
-    return () => waarnemer.disconnect();
-  }, [verminderd]);
+  const meldFout = useCallback(() => setZonderVideo(true), []);
+  useSpeeltInBeeld(videoRef, { uit: verminderd || zonderVideo, onFout: meldFout });
 
   /** Terugval wanneer het bestand ontbreekt of niet wil spelen. */
   useEffect(() => {
@@ -104,7 +85,7 @@ export default function VideoStage() {
           loop
           playsInline
           onTimeUpdate={volgTijd}
-          onError={() => setZonderVideo(true)}
+          onError={meldFout}
           aria-label="Otto en Nora verwerken een binnenkomende aanvraag"
         >
           <source src="/video/hero.mp4" type="video/mp4" />
