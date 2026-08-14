@@ -33,12 +33,19 @@ type Bord = {
   volgendeId: number;
 };
 
+/**
+ * Het bord begint gevuld. Zou het leeg starten, dan lijkt het de eerste
+ * seconden stuk terwijl er alleen nog niets getikt heeft.
+ */
 const START: Bord = {
-  inkomend: [],
-  sleuven: [null, null, null, null],
-  afgewerkt: [],
+  inkomend: [
+    { id: 0, titel: WERK[5] },
+    { id: 1, titel: WERK[6] },
+  ],
+  sleuven: [null, { id: 2, titel: WERK[4] }, null, { id: 3, titel: WERK[3] }],
+  afgewerkt: [{ id: 4, titel: WERK[2] }],
   aantal: 0,
-  volgendeId: 0,
+  volgendeId: 5,
 };
 
 const KAART = "glass-strong rounded-2xl px-3.5 py-2.5 text-[0.82rem] font-medium leading-snug";
@@ -110,7 +117,7 @@ export default function LiveBoard() {
     <div ref={houderRef}>
       <div className="grid gap-3 md:grid-cols-3 md:gap-4">
         <section className="glass rounded-card p-5" aria-label="Binnenkomend werk">
-          <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+          <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
             Binnenkomend
           </h3>
           <ul className="mt-4 min-h-[10.5rem] space-y-2">
@@ -125,7 +132,7 @@ export default function LiveBoard() {
         </section>
 
         <section className="glass rounded-card p-5" aria-label="Verwerking">
-          <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+          <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
             Verwerking
           </h3>
           <ol className="mt-4 space-y-2">
@@ -135,7 +142,7 @@ export default function LiveBoard() {
                 <li key={stap} className="flex items-center gap-3">
                   <span
                     className={`w-[5.4rem] shrink-0 text-[0.78rem] font-medium transition-colors duration-300 ${
-                      bezet ? "text-ink" : "text-ink/35"
+                      bezet ? "text-ink" : "text-ink/65"
                     }`}
                   >
                     {stap}
@@ -164,7 +171,7 @@ export default function LiveBoard() {
         </section>
 
         <section className="glass rounded-card p-5" aria-label="Afgewerkt">
-          <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+          <h3 className="text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
             Afgewerkt
           </h3>
           <ul className="mt-4 min-h-[10.5rem] space-y-2">
@@ -179,7 +186,7 @@ export default function LiveBoard() {
         </section>
       </div>
 
-      <p className="mt-4 text-center text-[0.9rem] text-ink/55">
+      <p className="mt-4 text-center text-[0.9rem] text-ink/65">
         <span className="font-semibold tabular-nums text-ink">{getal(toon.aantal)}</span> taken
         afgehandeld sinds u deze pagina opende
       </p>

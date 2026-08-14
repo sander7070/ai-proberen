@@ -40,13 +40,15 @@ export default function Home() {
   return (
     <>
       <JsonLd data={professionalService(OMSCHRIJVING, "/")} />
+      {/* De poster van het heropaneel is het grootste element boven de vouw. */}
+      <link rel="preload" as="image" href="/video/poster.jpg" fetchPriority="high" />
 
       {/* ------------------------------------------------------------ hero */}
       <section className="gloed relative isolate pt-14 md:pt-20">
         <div className="shell">
           <Onthult gespreid className="max-w-3xl">
             <OnthultItem>
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
                 Automatisatie en systeemintegratie
               </p>
             </OnthultItem>
@@ -123,17 +125,17 @@ export default function Home() {
           {CASES.map((c) => (
             <OnthultItem key={c.profiel}>
               <GlassCard className="h-full p-7 md:p-8">
-                <p className="inline-block rounded-pill bg-ink/6 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.14em] text-ink/55">
+                <p className="inline-block rounded-pill bg-ink/6 px-3 py-1 text-[0.7rem] font-medium uppercase tracking-[0.14em] text-ink/65">
                   Voorbeeldscenario
                 </p>
                 <h3 className="mt-4 text-xl font-semibold tracking-[-0.03em]">{c.profiel}</h3>
 
-                <p className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-ink/40">
+                <p className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
                   Vandaag
                 </p>
                 <p className="mt-2 text-[0.95rem] leading-relaxed text-ink/65">{c.situatie}</p>
 
-                <p className="mt-5 text-xs font-medium uppercase tracking-[0.18em] text-ink/40">
+                <p className="mt-5 text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
                   Met upgrAIde
                 </p>
                 <p className="mt-2 text-[0.95rem] leading-relaxed text-ink/80">{c.daarna}</p>
@@ -154,7 +156,7 @@ export default function Home() {
               Stel uw situatie in een paar klikken voor. U kiest daarna zelf of u de scan doet of
               meteen een gesprek inplant.
             </p>
-            <p className="mt-4 text-[0.95rem] leading-relaxed text-ink/55">
+            <p className="mt-4 text-[0.95rem] leading-relaxed text-ink/65">
               Wat u hier invult, blijft in uw browser. We vragen pas gegevens wanneer u ze zelf
               wil achterlaten.
             </p>

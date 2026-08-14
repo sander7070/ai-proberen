@@ -2,9 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { contactLink } from "@/lib/config";
 
+/** Op smalle schermen is er geen plaats voor het volledige label. */
 const NAV = [
-  { href: "/oplossingen", label: "Oplossingen" },
-  { href: "/automatisatiescan", label: "Automatisatiescan" },
+  { href: "/oplossingen", label: "Oplossingen", kort: "Oplossingen" },
+  { href: "/automatisatiescan", label: "Automatisatiescan", kort: "Scan" },
 ];
 
 export default function Header() {
@@ -31,9 +32,10 @@ export default function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rounded-pill px-2.5 py-2 text-[0.82rem] font-medium text-ink/70 transition-colors hover:text-ink md:px-4 md:text-sm"
+                  className="block rounded-pill px-2.5 py-2 text-[0.82rem] font-medium text-ink/70 transition-colors hover:text-ink md:px-4 md:text-sm"
                 >
-                  {item.label}
+                  <span className="sm:hidden">{item.kort}</span>
+                  <span className="hidden sm:inline">{item.label}</span>
                 </Link>
               </li>
             ))}

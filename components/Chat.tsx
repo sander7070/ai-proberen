@@ -98,9 +98,9 @@ export default function Chat() {
         />
         <div>
           <p className="text-[0.95rem] font-semibold leading-tight">{collega.naam}</p>
-          <p className="text-[0.8rem] text-ink/55">{collega.rol}</p>
+          <p className="text-[0.8rem] text-ink/65">{collega.rol}</p>
         </div>
-        <span className="ml-auto flex items-center gap-1.5 text-[0.75rem] text-ink/45">
+        <span className="ml-auto flex items-center gap-1.5 text-[0.75rem] text-ink/65">
           <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-grad-1" />
           Beschikbaar
         </span>

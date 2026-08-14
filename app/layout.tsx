@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
+import SatoshiFont from "@/components/SatoshiFont";
 import { publicConfig } from "@/lib/config";
 import "./globals.css";
 
@@ -45,10 +46,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f%5B%5D=satoshi@300,400,500,700&display=swap"
-        />
+        <SatoshiFont />
+        {/* Zonder JavaScript komen de onthulanimaties nooit op gang. Dan moet
+            de inhoud gewoon staan waar ze staat. */}
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
       <body className="min-h-dvh font-sans antialiased">
         <MotionProvider>

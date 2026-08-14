@@ -1,8 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { inView, rijst, trap } from "@/lib/motion";
+import Onthult, { OnthultItem } from "@/components/Onthult";
 import { useSpeeltInBeeld } from "@/lib/useSpeeltInBeeld";
 import { useVerminderdeBeweging } from "@/lib/useVerminderdeBeweging";
 
@@ -25,15 +24,16 @@ function standVan(tijd: number, start: number): Stand {
 }
 
 const STIJL: Record<Stand, string> = {
-  wacht: "opacity-55 text-ink/55",
+  // De opacity stapelt op de tekstkleur, dus die blijft hoog genoeg om
+  // leesbaar te zijn. Het onderscheid komt van de ring en de schaduw.
+  wacht: "opacity-80 text-ink/65",
   actief: "opacity-100 text-ink shadow-lift ring-2 ring-grad-1/35",
-  klaar: "opacity-90 text-ink/75",
+  klaar: "opacity-95 text-ink/75",
 };
 
 export default function VideoStage() {
   const verminderd = useVerminderdeBeweging();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const houderRef = useRef<HTMLDivElement>(null);
   const [tijd, setTijd] = useState(0);
   const [zonderVideo, setZonderVideo] = useState(false);
 
@@ -64,18 +64,8 @@ export default function VideoStage() {
   }, []);
 
   return (
-    <motion.div
-      ref={houderRef}
-      variants={trap(0.08)}
-      initial="rust"
-      whileInView="actief"
-      viewport={inView}
-      className="relative"
-    >
-      <motion.div
-        variants={rijst}
-        className="glass-strong relative overflow-hidden rounded-card"
-      >
+    <Onthult gespreid className="relative">
+      <OnthultItem className="glass-strong relative overflow-hidden rounded-card">
         <video
           ref={videoRef}
           className="aspect-[16/9] w-full object-cover"
@@ -101,7 +91,7 @@ export default function VideoStage() {
                 className={`glass-strong absolute rounded-pill px-4 py-2.5 text-sm font-medium transition-all duration-500 ${s.plaats} ${STIJL[stand]}`}
                 aria-current={stand === "actief" ? "step" : undefined}
               >
-                <span className="mr-2 text-xs tabular-nums text-ink/40">0{i + 1}</span>
+                <span className="mr-2 text-xs tabular-nums text-ink/65">0{i + 1}</span>
                 {s.label}
               </li>
             );
@@ -114,7 +104,7 @@ export default function VideoStage() {
         >
           Stap {stap} van {STAPPEN.length}
         </div>
-      </motion.div>
+      </OnthultItem>
 
       {/* Op klein scherm staan dezelfde stappen onder het beeld. */}
       <ol className="mt-3 grid grid-cols-2 gap-2 md:hidden">
@@ -126,12 +116,12 @@ export default function VideoStage() {
               className={`glass rounded-2xl px-3 py-2.5 text-[0.8rem] font-medium leading-tight transition-all duration-500 ${STIJL[stand]}`}
               aria-current={stand === "actief" ? "step" : undefined}
             >
-              <span className="mr-1.5 text-[0.7rem] tabular-nums text-ink/40">0{i + 1}</span>
+              <span className="mr-1.5 text-[0.7rem] tabular-nums text-ink/65">0{i + 1}</span>
               {s.label}
             </li>
           );
         })}
       </ol>
-    </motion.div>
+    </Onthult>
   );
 }

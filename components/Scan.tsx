@@ -145,7 +145,7 @@ export default function Scan() {
             exit={{ opacity: 0, y: -12 }}
             transition={spring}
           >
-            <div className="flex items-center justify-between text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+            <div className="flex items-center justify-between text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
               <span>
                 Vraag {index + 1} van {VRAGEN.length}
               </span>
@@ -178,7 +178,7 @@ export default function Scan() {
                   {vraag.titel}
                 </h2>
               </legend>
-              <p className="mt-2.5 text-[0.95rem] text-ink/55">{vraag.hulp}</p>
+              <p className="mt-2.5 text-[0.95rem] text-ink/65">{vraag.hulp}</p>
 
               <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
                 {vraag.keuzes.map((keuze) => {
@@ -254,7 +254,7 @@ export default function Scan() {
             exit={{ opacity: 0, y: -12 }}
             transition={spring}
           >
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
               Uw resultaat
             </p>
             <h2
@@ -279,7 +279,7 @@ export default function Scan() {
               {DISCLAIMER}
             </p>
 
-            <h3 className="mt-9 text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+            <h3 className="mt-9 text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
               Waar de winst zit
             </h3>
             <ul className="mt-4 space-y-2.5">
@@ -364,7 +364,7 @@ export default function Scan() {
                     onChange={(e) =>
                       setContact((c) => ({ ...c, [f.veld]: e.target.value }))
                     }
-                    className="mt-1.5 w-full rounded-2xl border border-ink/12 bg-glass/70 px-4 py-3 text-[0.95rem] outline-none transition-colors placeholder:text-ink/30 focus-visible:border-grad-1/50"
+                    className="mt-1.5 w-full rounded-2xl border border-ink/12 bg-glass/70 px-4 py-3 text-[0.95rem] outline-none transition-colors placeholder:text-ink/60 focus-visible:border-grad-1/50"
                   />
                 </div>
               ))}
@@ -414,7 +414,7 @@ export default function Scan() {
               U krijgt het overzicht in uw mailbox. Wil u er meteen over praten, dan plannen we
               een gesprek van een halfuur waarin we uw cijfer samen nakijken.
             </p>
-            <p className="mt-4 text-[0.9rem] leading-relaxed text-ink/55">{DISCLAIMER}</p>
+            <p className="mt-4 text-[0.9rem] leading-relaxed text-ink/65">{DISCLAIMER}</p>
 
             <div className="mt-8">
               <a

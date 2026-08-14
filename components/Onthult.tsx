@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { inView, rijst, trap } from "@/lib/motion";
+import { useVerminderdeBeweging } from "@/lib/useVerminderdeBeweging";
 
 type Props = {
   children: ReactNode;
@@ -11,26 +12,19 @@ type Props = {
   gespreid?: boolean;
 };
 
-/** Onthult inhoud bij het in beeld komen, en daarna niet meer. */
+/**
+ * Onthult inhoud bij het in beeld komen, en daarna niet meer.
+ *
+ * Wie geen beweging wil, krijgt meteen de eindstand: initial={false} slaat de
+ * verborgen begintoestand over, zodat er niets te wachten valt op scrollen.
+ */
 export default function Onthult({ children, className, gespreid = false }: Props) {
-  if (gespreid) {
-    return (
-      <motion.div
-        variants={trap(0.08)}
-        initial="rust"
-        whileInView="actief"
-        viewport={inView}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    );
-  }
+  const verminderd = useVerminderdeBeweging();
 
   return (
     <motion.div
-      variants={rijst}
-      initial="rust"
+      variants={gespreid ? trap(0.08) : rijst}
+      initial={verminderd ? false : "rust"}
       whileInView="actief"
       viewport={inView}
       className={className}
@@ -42,8 +36,10 @@ export default function Onthult({ children, className, gespreid = false }: Props
 
 /** Eén element binnen een gespreide groep. */
 export function OnthultItem({ children, className }: { children: ReactNode; className?: string }) {
+  const verminderd = useVerminderdeBeweging();
+
   return (
-    <motion.div variants={rijst} className={className}>
+    <motion.div variants={verminderd ? undefined : rijst} className={className}>
       {children}
     </motion.div>
   );

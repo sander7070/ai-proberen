@@ -23,7 +23,7 @@ export default function Footer() {
         </div>
 
         <nav aria-label="Paginanavigatie">
-          <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-paper/45">Pagina&apos;s</h2>
+          <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-paper/60">Pagina&apos;s</h2>
           <ul className="mt-4 space-y-2.5 text-[0.95rem] text-paper/80">
             <li>
               <Link href="/" className="transition-colors hover:text-paper">
@@ -44,7 +44,7 @@ export default function Footer() {
         </nav>
 
         <div>
-          <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-paper/45">Contact</h2>
+          <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-paper/60">Contact</h2>
           <ul className="mt-4 space-y-2.5 text-[0.95rem] text-paper/80">
             <li>
               <a
@@ -64,7 +64,7 @@ export default function Footer() {
       </div>
 
       <div className="shell border-t border-paper/10 py-6">
-        <p className="text-xs text-paper/45">
+        <p className="text-xs text-paper/60">
           © {jaar} upgrAIde. Cijfers over resultaten zijn richtcijfers, geen belofte.
         </p>
       </div>

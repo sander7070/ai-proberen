@@ -77,7 +77,9 @@ export default function Marquee({ rand = "paper" }: { rand?: keyof typeof RAND }
       onFocusCapture={() => setGepauzeerd(true)}
       onBlurCapture={() => setGepauzeerd(false)}
     >
-      <motion.div className="flex w-max" style={verminderd ? undefined : { x }}>
+      {/* Geen w-max: de rij mag de breedte van haar ouder niet opdrijven.
+          De kopieën lopen buiten beeld en worden hierboven afgesneden. */}
+      <motion.div className="flex" style={verminderd ? undefined : { x }}>
         {rij(false)}
         {rij(true)}
       </motion.div>

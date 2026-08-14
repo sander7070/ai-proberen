@@ -19,7 +19,7 @@ export default function Automatisatiescan() {
 
       <section className="gloed relative isolate pt-16 md:pt-24">
         <div className="shell">
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
             Automatisatiescan
           </p>
           <h1 className="mt-4 max-w-3xl text-display font-semibold">

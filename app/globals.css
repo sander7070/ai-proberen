@@ -54,6 +54,11 @@
     border-radius: 4px;
   }
 
+  /* Koppen die wij zelf focussen mogen niet onder de plakkende balk landen. */
+  [tabindex="-1"] {
+    scroll-margin-top: 7rem;
+  }
+
   ::selection {
     background: rgb(var(--grad-2-rgb) / 0.24);
   }
@@ -116,7 +121,7 @@
   .gloed::before {
     content: "";
     position: absolute;
-    inset: -20% -10% auto -10%;
+    inset: -20% 0 auto 0;
     height: 60%;
     pointer-events: none;
     z-index: -1;

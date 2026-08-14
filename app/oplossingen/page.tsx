@@ -74,7 +74,7 @@ export default function Oplossingen() {
         <div className="shell">
           <Onthult gespreid className="max-w-3xl">
             <OnthultItem>
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/45">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-ink/65">
                 Oplossingen
               </p>
             </OnthultItem>
@@ -98,7 +98,7 @@ export default function Oplossingen() {
       <section className="shell mt-20 md:mt-28">
         <Onthult className="flex flex-wrap items-end justify-between gap-6">
           <h2 className="max-w-xl text-title font-semibold">Waar we werk overnemen</h2>
-          <p className="text-[0.95rem] text-ink/55">
+          <p className="text-[0.95rem] text-ink/65">
             <Counter waarde={DOMEINEN.length} className="text-2xl font-semibold text-ink" />{" "}
             domeinen
           </p>
@@ -148,7 +148,7 @@ export default function Oplossingen() {
           {AANPAK.map((a) => (
             <OnthultItem key={a.stap}>
               <GlassCard className="h-full p-7 md:p-8">
-                <p className="text-[0.8rem] font-semibold tabular-nums tracking-[0.1em] text-ink/35">
+                <p className="text-[0.8rem] font-semibold tabular-nums tracking-[0.1em] text-ink/65">
                   {a.stap}
                 </p>
                 <h3 className="mt-4 text-xl font-semibold tracking-[-0.03em]">{a.titel}</h3>
